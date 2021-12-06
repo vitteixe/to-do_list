@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/src/rendering/box.dart';
 
 /* iniciando APP */
 void main (){
   runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: Todo(),
   ));
 }
@@ -28,7 +30,38 @@ class _TodoState extends State<Todo> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Lista de Tarefas"),
+        backgroundColor: Colors.indigoAccent,
+        centerTitle: true,
+      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.fromLTRB(17.0, 1.0, 7.0, 1.0),
+            child: Row(
+              children: <Widget>[
+                const Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                        labelText: "Nova Tarefa",
+                        labelStyle: TextStyle(color: Colors.indigoAccent)
+                    ),
+                  ),
+                ),
+                RaisedButton(
+                  color: Colors.indigoAccent,
+                  child: Text("ADD"),
+                  textColor: Colors.white,
+                  onPressed: (){},
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   /* Função que retorna arquivo para salvar */
@@ -51,12 +84,12 @@ class _TodoState extends State<Todo> {
 
 
   /* Função para ler os dados no data.json */
-  Future<String> _readData() async{
-    try{
+  Future<String?> _readData() async {
+    try {
       final file = await _getFile();
 
       return file.readAsString();
-    } catch (e) {
+    }catch (e){
       return null;
     }
   }
